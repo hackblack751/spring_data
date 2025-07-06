@@ -1,0 +1,18 @@
+
+app:
+  datasource:
+    mysql:
+      url: jdbc:mysql://localhost:3306/jpa_mysql
+      user: root
+      password: admin
+      max-pool-size: 10
+      minimum-idle: 5
+    h2:
+      url: jdbc:h2:mem:testdb
+      user: sa
+      password:
+      max-pool-size: 10
+      minimum-idle: 5
+spring:
+  application:
+    name: practice

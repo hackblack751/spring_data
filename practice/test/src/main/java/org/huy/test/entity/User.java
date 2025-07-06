@@ -1,0 +1,114 @@
+package org.huy.test.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
+import org.springframework.context.annotation.Lazy;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@SqlResultSetMapping(
+        name = "userWithProfileMapping",
+        entities = {
+                @EntityResult(entityClass = User.class,
+                    fields = {
+                        @FieldResult(name = "userId", column = "u.user_id"),
+                        @FieldResult(name = "username", column = "u.username"),
+                        @FieldResult(name = "status", column = "u.status_id")
+                    }
+                ),
+                @EntityResult(entityClass = Profile.class
+                    , fields = {
+                        @FieldResult(name = "userId", column = "p.user_id")
+                        , @FieldResult(name = "firstName", column = "p.first_name")
+                        , @FieldResult(name = "lastName", column = "p.last_name")
+
+                    }
+                )
+        }
+)
+
+@NamedNativeQueries(
+        {
+            @NamedNativeQuery(
+                name = "User.findUserWithProfile",
+                query = """
+            SELECT
+                u.user_id AS "u.user_id", u.username AS "u.username"
+                , u.status_id AS "u.status_id"
+                , p.user_id AS "p.user_id", p.first_name AS "p.first_name"
+                , p.last_name AS "p.last_name"
+            FROM users u
+                LEFT JOIN profile p
+                    ON p.user_id = u.user_id
+            WHERE u.user_id = ?1
+            ORDER BY u.user_id
+                """,
+                        resultSetMapping = "userWithProfileMapping"
+            ),
+            @NamedNativeQuery(
+                    name = "User.findUsers",
+                    query = """
+                SELECT
+                u.user_id AS "u.user_id", u.username AS "u.username"
+                , u.status_id AS "u.status_id"
+                , p.user_id AS "p.user_id", p.first_name AS "p.first_name"
+                , p.last_name AS "p.last_name"
+            FROM users u
+                LEFT JOIN profile p
+                    ON p.user_id = u.user_id
+            ORDER BY u.user_id
+                            """,
+                    resultSetMapping = "userWithProfileMapping"
+            ),
+            @NamedNativeQuery(
+                        name = "User.countUser",
+                        query = """
+            SELECT COUNT(*)
+            FROM users u
+                """,
+                    resultClass = Long.class
+            )
+        }
+)
+public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "user_id")
+    private Integer userId;
+
+    @Column(name = "username")
+    private String username;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY) // working as intended
+    @JsonIgnore
+    private Set<Order> orders = new HashSet<>();
+
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false)
+    private Profile profile;
+
+//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    private List<Profile> profile;
+
+//    public Profile getProfile() {
+//        return this.profile == null || this.profile.isEmpty() ? null : this.profile.get(0);
+//    }
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_id")
+    private UserStatus status;
+}

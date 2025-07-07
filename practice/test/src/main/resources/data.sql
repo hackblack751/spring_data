@@ -5,6 +5,9 @@ INSERT INTO users(user_id, username, status_id)
 VALUES(1, 'johnny', 1),
        (2, 'henry', 1);
 
+INSERT INTO user_address(address_id, user_id, street)
+VALUES(1, 1, '126 Washinton'), (2, 2, '21 Nguyen Thai Tong');
+
 INSERT INTO profile_status(profile_status_id, status_name)
 VALUES(1, 'PUBLIC'), (2, 'PRIVATE'), (3, 'LIMITED');
 

@@ -1,10 +1,11 @@
-package org.huy.test.entity;
+package org.huy.test.entity.profile;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.huy.test.entity.user.User;
 
 @Entity
 @Table(name = "profile")
@@ -17,9 +18,8 @@ public class Profile {
     @Column(name = "user_id", unique = true, nullable = false)
     private Integer userId;
 
-    @MapsId
-//    @ManyToOne(fetch = FetchType.LAZY)
-    @OneToOne(fetch = FetchType.LAZY)
+    @MapsId // Mapping using shared PK
+    @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     @JsonIgnore
     private User user;

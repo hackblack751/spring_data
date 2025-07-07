@@ -1,7 +1,10 @@
-package org.huy.test.dto;
+package org.huy.test.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.huy.test.dto.OrderDto;
+import org.huy.test.dto.UserAddressDto;
+import org.huy.test.dto.profile.ProfileDto;
 
 import java.util.List;
 
@@ -14,6 +17,6 @@ public class UserDto {
     private ProfileDto profile;
     private UserStatusDto userStatus;
     private List<OrderDto> orders;
-
+    private UserAddressDto userAddress;
 
 }

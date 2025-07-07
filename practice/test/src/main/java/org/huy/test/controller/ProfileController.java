@@ -1,7 +1,7 @@
 package org.huy.test.controller;
 
 import org.huy.test.entity.Order;
-import org.huy.test.entity.Profile;
+import org.huy.test.entity.profile.Profile;
 import org.huy.test.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

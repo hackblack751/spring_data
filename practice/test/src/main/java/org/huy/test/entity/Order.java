@@ -1,8 +1,8 @@
 package org.huy.test.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.huy.test.entity.user.User;
 
 import java.time.LocalDateTime;
 

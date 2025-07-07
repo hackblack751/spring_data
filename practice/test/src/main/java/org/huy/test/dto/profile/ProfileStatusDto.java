@@ -1,10 +1,10 @@
-package org.huy.test.dto;
+package org.huy.test.dto.profile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.huy.test.entity.ProfileStatus;
+import org.huy.test.entity.profile.ProfileStatus;
 
 @Getter
 @Setter

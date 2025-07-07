@@ -25,6 +25,14 @@ CREATE TABLE `profile_status` (
     PRIMARY KEY(profile_status_id)
 );
 
+CREATE TABLE user_address(
+    address_id INT,
+    street VARCHAR(250),
+    user_id INT UNIQUE,
+    PRIMARY KEY(address_id),
+    CONSTRAINT fk_user_address_user FOREIGN KEY(user_id) REFERENCES users(user_id)
+);
+
 CREATE TABLE `profile` (
     user_id INT,
     first_name VARCHAR(50),

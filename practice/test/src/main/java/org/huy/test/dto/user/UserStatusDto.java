@@ -1,9 +1,9 @@
-package org.huy.test.dto;
+package org.huy.test.dto.user;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.huy.test.entity.UserStatus;
+import org.huy.test.entity.user.UserStatus;
 
 @Getter
 @Setter

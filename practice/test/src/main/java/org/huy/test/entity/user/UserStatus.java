@@ -1,11 +1,10 @@
-package org.huy.test.entity;
+package org.huy.test.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Collate;
 
 import java.util.List;
 

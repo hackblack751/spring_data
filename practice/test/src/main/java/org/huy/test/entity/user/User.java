@@ -1,4 +1,4 @@
-package org.huy.test.entity;
+package org.huy.test.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -6,12 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
-import org.springframework.context.annotation.Lazy;
+import org.huy.test.entity.Address;
+import org.huy.test.entity.Order;
+import org.huy.test.entity.profile.Profile;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -98,6 +97,7 @@ public class User {
     @JsonIgnore
     private Set<Order> orders = new HashSet<>();
 
+    // using shared PK, JPA will respect the LAZY fetch type
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false)
     private Profile profile;
 
@@ -111,4 +111,17 @@ public class User {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     private UserStatus status;
+
+    // using FK, JPA will not give a fuck about LAZY fetch type
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false)
+    private Address address;
+
+    public void setAddress(Address address) {
+        if(address == null) {
+            if(this.address != null) this.address = null;
+        } else {
+            this.address = address;
+            address.setUser(this);
+        }
+    }
 }

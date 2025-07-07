@@ -1,18 +1,14 @@
 package org.huy.test.repository;
 
-import jakarta.persistence.NamedNativeQuery;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.SqlResultSetMapping;
-import org.huy.test.entity.User;
+import org.huy.test.entity.user.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.List;
-
-public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
+public interface UserRepository extends JpaRepository<User, Integer>, PagingAndSortingRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
     @Query(value = """
             SELECT

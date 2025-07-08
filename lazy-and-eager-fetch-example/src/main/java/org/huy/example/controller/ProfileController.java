@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProfileController {
 
-    @Autowired
     private final ProfileRepository profileRepository;
 
     @GetMapping("/{userId}")

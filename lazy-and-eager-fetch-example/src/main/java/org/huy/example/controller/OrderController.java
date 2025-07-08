@@ -17,7 +17,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
 
-    @Autowired
     private final OrderRepository orderRepository;
 
     @GetMapping("/{userId}")

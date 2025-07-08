@@ -26,10 +26,8 @@ import java.util.Set;
 @RequiredArgsConstructor
 public class UserController {
 
-    @Autowired
     private final UserRepository userRepository;
 
-    @Autowired
     private final OrderRepository orderRepository;
 
     @GetMapping("/{userId}")

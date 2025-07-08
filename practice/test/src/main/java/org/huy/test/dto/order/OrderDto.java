@@ -1,9 +1,9 @@
-package org.huy.test.dto;
+package org.huy.test.dto.order;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.huy.test.entity.Order;
+import org.huy.test.entity.order.Order;
 
 import java.time.LocalDateTime;
 

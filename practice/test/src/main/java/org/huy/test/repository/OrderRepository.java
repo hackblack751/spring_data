@@ -1,16 +1,16 @@
 package org.huy.test.repository;
 
-import org.huy.test.entity.Order;
+import org.huy.test.entity.order.Order;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order, Integer> {
+public interface OrderRepository extends JpaRepository<Order, Integer>, PagingAndSortingRepository<Order, Integer> {
 
 //    @Query(value = """
 //            SELECT o.*
@@ -28,4 +28,11 @@ public interface OrderRepository extends JpaRepository<Order, Integer> {
     ORDER BY o.createdAt
     """)
     List<Order> findByUserId(Integer userId, Pageable pageable);
+
+    @Query(value = """
+            SELECT o
+            FROM Order o
+            WHERE o.user.userId = :userId
+            """)
+    List<Order> findAllByUserId(Integer userId);
 }

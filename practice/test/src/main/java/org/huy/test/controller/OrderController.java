@@ -1,7 +1,7 @@
 package org.huy.test.controller;
 
-import jakarta.transaction.Transactional;
-import org.huy.test.entity.Order;
+import lombok.RequiredArgsConstructor;
+import org.huy.test.entity.order.Order;
 import org.huy.test.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,14 +14,15 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/orders")
+@RequiredArgsConstructor
 public class OrderController {
 
     @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     @GetMapping("/{userId}")
     public ResponseEntity<?> getAllOrders(@PathVariable Integer userId) {
-        List<Order> orders = this.orderRepository.findByUserId(userId);
+        List<Order> orders = this.orderRepository.findAllByUserId(userId);
 
         // trigger JPA query the status
 //        for(Order order : orders) {

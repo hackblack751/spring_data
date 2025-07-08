@@ -65,10 +65,11 @@ public interface UserRepository extends JpaRepository<User, Integer>, PagingAndS
             """)
     User findByUserId(Integer userId);
 
-
+    // TODO: Confirm this method by return List<Object[]> instead
     @Query(name = "User.findUserWithProfile")
     User findUserWithProfile(Integer userId);
 
+    // TODO: Confirm this method by return List<Object[]> instead
     @Query(name = "User.findUsers", countName = "User.countUser")
     Page<User> findUsers(Pageable pageable);
 }

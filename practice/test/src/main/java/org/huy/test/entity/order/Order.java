@@ -1,4 +1,4 @@
-package org.huy.test.entity;
+package org.huy.test.entity.order;
 
 import jakarta.persistence.*;
 import lombok.*;

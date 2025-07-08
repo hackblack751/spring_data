@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.huy.test.entity.Address;
-import org.huy.test.entity.Order;
+import org.huy.test.entity.order.Order;
 import org.huy.test.entity.profile.Profile;
 
 import java.util.HashSet;
@@ -39,7 +39,7 @@ import java.util.Set;
                 )
         }
 )
-
+// TODO: confirm this named queries.
 @NamedNativeQueries(
         {
             @NamedNativeQuery(
@@ -97,22 +97,15 @@ public class User {
     @JsonIgnore
     private Set<Order> orders = new HashSet<>();
 
-    // using shared PK, JPA will respect the LAZY fetch type
+    /** using shared PK, JPA respect LAZY fetch type.*/
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false)
     private Profile profile;
-
-//    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-//    private List<Profile> profile;
-
-//    public Profile getProfile() {
-//        return this.profile == null || this.profile.isEmpty() ? null : this.profile.get(0);
-//    }
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "status_id")
     private UserStatus status;
 
-    // using FK, JPA will not give a fuck about LAZY fetch type
+    /** JPA ignore LAZY fetch of non-owner side except "shared PK".*/
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, optional = false)
     private Address address;
 

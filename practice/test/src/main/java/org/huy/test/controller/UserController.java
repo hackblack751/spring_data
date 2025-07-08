@@ -1,10 +1,12 @@
 package org.huy.test.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.huy.test.dto.*;
+import org.huy.test.dto.order.OrderDto;
 import org.huy.test.dto.profile.ProfileDto;
 import org.huy.test.dto.user.UserDto;
 import org.huy.test.dto.user.UserStatusDto;
-import org.huy.test.entity.Order;
+import org.huy.test.entity.order.Order;
 import org.huy.test.entity.profile.Profile;
 import org.huy.test.entity.user.User;
 import org.huy.test.repository.OrderRepository;
@@ -21,13 +23,14 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
+@RequiredArgsConstructor
 public class UserController {
 
     @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
 
     @GetMapping("/{userId}")
     public ResponseEntity<?> getById(@PathVariable Integer userId) {
@@ -57,42 +60,35 @@ public class UserController {
     @GetMapping
     public ResponseEntity<?> getUsersPagination(@RequestParam(defaultValue = "0") Integer pageNum,
                                                 @RequestParam(defaultValue = "10") Integer pageSize) {
-
 //        Page<User> result = this.userRepository.findUsers(PageRequest.of(pageNum, pageSize));
-
 //        Page<User> result = this.userRepository.findUsersNative(PageRequest.of(pageNum, pageSize));
-
 //        Page<User> result = this.userRepository.findUserss(PageRequest.of(pageNum, pageSize));
 
-        // Let the
+        // Sử dung method cua JPA
         Page<User> result = this.userRepository.findAll(PageRequest.of(pageNum, pageSize));
 
-        List<UserDto> userDtos = new ArrayList<>();
+        List<UserDto> userDtoList = new ArrayList<>();
         if(!result.isEmpty()) {
-//            boolean isUser = result.getContent().get(0) instanceof User;
-
-            for(User user : result.getContent()) {
-                UserDto userDto = new UserDto();
-                userDto.setUserId(user.getUserId());
-                userDto.setUsername(user.getUsername());
-                userDto.setProfile(new ProfileDto(user.getProfile()));
-                userDto.setUserStatus(new UserStatusDto(user.getStatus()));
-
-                List<Order> orders = this.orderRepository.findByUserId(user.getUserId(), PageRequest.of(0, 10));
-                userDto.setOrders(orders.stream().map(OrderDto::new).toList());
-                userDto.setUserAddress(new UserAddressDto(user.getAddress()));
-
-//                ProfileStatus ps =  user.getProfile().getProfileStatus();
-//                if(ps == null) user.getProfile().setProfileStatus(null);
-//                // GET n + 1 problem with native query
-//                Set<Order> orders = user.getOrders();
-//                System.out.println(orders);
-                userDtos.add(userDto);
-            }
+            // Tạo dto tu entity
+            userDtoList = result.getContent().stream()
+                    .map(this::createUserDto).toList();
         }
 
         System.out.println("End debug");
-        return ResponseEntity.ok(userDtos);
-//        return ResponseEntity.ok(result.getContent());
+        return ResponseEntity.ok(userDtoList);
+    }
+
+    public UserDto createUserDto(User entity) {
+        UserDto userDto = new UserDto();
+        userDto.setUserId(entity.getUserId());
+        userDto.setUsername(entity.getUsername());
+        userDto.setProfile(new ProfileDto(entity.getProfile()));
+        userDto.setUserStatus(new UserStatusDto(entity.getStatus()));
+
+        List<Order> orders = this.orderRepository.findByUserId(entity.getUserId(), PageRequest.of(0, 10));
+        userDto.setOrders(orders.stream().map(OrderDto::new).toList());
+        userDto.setUserAddress(new UserAddressDto(entity.getAddress()));
+
+        return userDto;
     }
 }

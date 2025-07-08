@@ -18,7 +18,8 @@ public class Profile {
     @Column(name = "user_id", unique = true, nullable = false)
     private Integer userId;
 
-    @MapsId // Mapping using shared PK
+    /** JPA respect LAZY fetch. */
+    @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id")
     @JsonIgnore

@@ -1,4 +1,4 @@
-package org.huy.test.entity;
+package org.huy.test.entity.order;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;

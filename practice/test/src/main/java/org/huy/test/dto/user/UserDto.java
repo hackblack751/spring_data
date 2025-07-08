@@ -2,7 +2,7 @@ package org.huy.test.dto.user;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.huy.test.dto.OrderDto;
+import org.huy.test.dto.order.OrderDto;
 import org.huy.test.dto.UserAddressDto;
 import org.huy.test.dto.profile.ProfileDto;
 

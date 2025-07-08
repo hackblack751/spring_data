@@ -6,10 +6,12 @@ spring:
     username: sa
     password:
 
+# Init data.sql
   sql:
     init:
       mode: always
 
+# Display Hibernate-generated query
   jpa:
     show-sql: true
     hibernate:
